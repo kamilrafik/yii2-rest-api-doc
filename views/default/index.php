@@ -2,8 +2,9 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
+/** @var $rules array */
 
-$this->title = 'Documentation';
+$this->title = \Yii::t('app', 'REST API Documentation');
 
 $methodColorMap = [
     'GET' => 'info',
@@ -17,20 +18,27 @@ $methodColorMap = [
 
 ?>
 <div class="docs-index">
-    <div class="row">
-        <div class="col-lg-4 pull-left">
-            <div class="form-group">
-                <input class="form-control " type="text" id="base_url" placeholder="Base URL" />
-            </div>
-        </div>
-        <div class="col-lg-4 pull-right">
-            <div class="form-group">
-                <input class="form-control " type="text" id="token" placeholder="Authentication Token" />
-            </div>
-        </div>
+
+    <div class="form-group token-form">
+        <label for="token"><?= \Yii::t('app', 'Please, enter your API authorization token') ?></label>
+        <input class="form-control" type="password" id="token" placeholder="<?= \Yii::t('app', 'API Authorization Token') ?>" />
     </div>
 
+    <div>
+        <?= \Yii::t('app', 'After that click on APIs names/methods listed further and send queries to our server for getting results.') ?>
+    </div>
+    <br/><br/>
+
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <?php
+        if (!sizeof($rules)) {
+            ?>
+            <div class="alert alert-warning">
+                <?= \Yii::t('app', 'Sorry, you have not access to any API. Please, contact system administrator to assign the required API permissions to your role.') ?>
+            </div>
+            <?php
+        }
+        ?>
         <?php foreach ($rules as $ei => $entity) : ?>
             <div class="panel panel-default">
                 <div class="panel-heading">

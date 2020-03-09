@@ -39,14 +39,6 @@
             $bodyField.val(prettify($(this).text()));
         });
 
-        $('#token, #base_url').each(function () {
-            $(this).val(localStorage.getItem('rest_api_doc_' + $(this).attr('id')));
-        });
-
-        $('#token, #base_url').change(function () {
-            localStorage.setItem('rest_api_doc_' + $(this).attr('id'), $(this).val());
-        });
-
         $('.docs-index form').submit(function (e) {
             e.preventDefault();
             var form = this;
@@ -93,13 +85,15 @@
             }
 
             var ajaxParams = $.extend({
-                url: $('#base_url').val() + url,
+                url: url,
                 method: method,
                 data: body,
                 contentType: 'application/json',
                 dataType: 'json',
                 headers: {
-                    Authorization: 'Bearer ' + $('#token').val()
+                    // Authorization: 'Bearer ' + $('#token').val()
+                    // for the current project we need the following:
+                    Authorization: 'Basic ' + btoa(unescape(encodeURIComponent($('#token').val() + ':')))
                 }
             }, formData);
 

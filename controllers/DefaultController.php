@@ -20,19 +20,28 @@ class DefaultController extends \yii\base\Controller
         $rules = [];
         foreach (\Yii::$app->urlManager->rules as $urlRule) {
             if ($urlRule instanceof \yii\rest\UrlRule) {
-                foreach ($urlRule->controller as $urlName => $controllerName) {
-                    $entity = [];
-                    $controllerName = strrchr($controllerName, '/') === false ? $controllerName : substr(strrchr($controllerName, '/'), 1);
-                    $entity['title'] = str_replace(['/'], '_', ucfirst($controllerName));
-                    $urlRuleReflection = new \ReflectionClass($urlRule);
-                    $rulesObject = $urlRuleReflection->getProperty('rules');
-                    $rulesObject->setAccessible(true);
-                    $generatedRules = $rulesObject->getValue($urlRule);
+                $entity = [];
+                $urlName = key($urlRule->controller);
+                $controllerName = current($urlRule->controller);
+                $controllerName = strrchr($controllerName, '/') === false ? $controllerName : substr(strrchr($controllerName, '/'), 1);
 
-                    $entity['rules'] = $this->_processRules($generatedRules[$urlName]);
-
-                    $rules[] = $entity;
+                // hide documentation for forbidden APIs
+                if (!\Yii::$app->user->can(\Yii::$app->apiAuthManager->getPermissionName($controllerName))) {
+                    continue;
                 }
+
+                // $entity['title'] = ucfirst($controllerName);
+                // name of API in UI should match real name for better readability
+                $entity['title'] = $controllerName;
+
+                $urlRuleReflection = new \ReflectionClass($urlRule);
+                $rulesObject = $urlRuleReflection->getProperty('rules');
+                $rulesObject->setAccessible(true);
+                $generatedRules = $rulesObject->getValue($urlRule);
+
+                $entity['rules'] = $this->_processRules($generatedRules[$urlName]);
+
+                $rules[] = $entity;
             }
         }
         return $this->render('index', [

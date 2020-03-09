@@ -8,3 +8,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.docs-index .token-form {
+    width: 40% !important;
+}
