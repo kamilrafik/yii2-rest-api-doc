@@ -26,7 +26,10 @@ class DefaultController extends \yii\base\Controller
                 $controllerName = strrchr($controllerName, '/') === false ? $controllerName : substr(strrchr($controllerName, '/'), 1);
 
                 // hide documentation for forbidden APIs
-                if (!\Yii::$app->user->can(\Yii::$app->apiAuthManager->getPermissionName($controllerName))) {
+                if (
+                    !\Yii::$app->user->isAdministrator() &&
+                    !\Yii::$app->user->can(\Yii::$app->apiAuthManager->getPermissionName($controllerName))
+                ) {
                     continue;
                 }
 
