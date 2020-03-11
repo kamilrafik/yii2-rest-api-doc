@@ -36,6 +36,7 @@ class DefaultController extends \yii\base\Controller
 
                 // $entity['title'] = ucfirst($controllerName);
                 // name of API in UI should match real name for better readability
+                // note: further, we use title for generating HTML IDs; so, keep it clean
                 $entity['title'] = $controllerName;
 
                 $urlRuleReflection = new \ReflectionClass($urlRule);
@@ -48,6 +49,11 @@ class DefaultController extends \yii\base\Controller
                 $rules[] = $entity;
             }
         }
+
+        usort($rules, function ($a, $b) {
+            return strcmp($a['title'], $b['title']);
+        });
+
         return $this->render('index', [
                 'rules' => $rules,
         ]);

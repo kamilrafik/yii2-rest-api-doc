@@ -16,6 +16,14 @@ $methodColorMap = [
     'PATCH' => 'warning',
 ];
 
+$fnGetHtmlIdForRule = function ($rule) {
+    if ($rule['method'] === 'GET' && !empty($rule['params'])) {
+        return 'get-id';
+    } else {
+        return strtolower($rule['method']);
+    }
+};
+
 ?>
 <div class="docs-index">
 
@@ -50,7 +58,11 @@ $methodColorMap = [
 
                         <div class="list-group" id="<?= $entity['title'] ?>-list" role="tablist" aria-multiselectable="true">
                             <?php foreach ($entity['rules'] as $ri => $rule) : ?>
-                                <a class="endpoint-toggle list-group-item" role="button" data-parent="#<?= $entity['title'] ?>-list" data-toggle="collapse" href="#rule-<?= $ei ?>-<?= $ri ?>" aria-expanded="false" aria-controls="rule-<?= $ei ?>-<?= $ri ?>">
+                            <?php
+                                // for better readability and generic logic in tests
+                                $ri = $fnGetHtmlIdForRule($rule);
+                            ?>
+                                <a class="endpoint-toggle list-group-item" role="button" data-parent="#<?= $entity['title'] ?>-list" data-toggle="collapse" href="#rule-<?= $entity['title'] ?>-<?= $ri ?>" aria-expanded="false" aria-controls="rule-<?= $entity['title'] ?>-<?= $ri ?>">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="label bg-<?= $methodColorMap[$rule['method']] ?> pull-left col-lg-1 method"><?= $rule['method'] ?></span>
@@ -67,7 +79,7 @@ $methodColorMap = [
                                     </div>
                                 </a>
 
-                                <div id="rule-<?= $ei ?>-<?= $ri ?>" class="panel panel-primary collapse" role="tabpanel">
+                                <div id="rule-<?= $entity['title'] ?>-<?= $ri ?>" class="panel panel-primary collapse" role="tabpanel">
                                     <div class="panel-body">
                                         <?php if (!empty($rule['description'])) : ?>
                                             <p><?= $rule['description'] ?></p>
