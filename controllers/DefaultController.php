@@ -27,6 +27,7 @@ class DefaultController extends \yii\base\Controller
 
                 // hide documentation for forbidden APIs
                 if (
+                    !YII_ENV_TEST &&
                     !\Yii::$app->user->isAdministrator() &&
                     !\Yii::$app->user->can(\Yii::$app->apiAuthManager->getPermissionName($controllerName))
                 ) {
