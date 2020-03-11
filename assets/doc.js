@@ -89,7 +89,12 @@
                 method: method,
                 data: body,
                 contentType: 'application/json',
-                dataType: 'json'
+                dataType: 'json',
+                headers: {
+                    // Authorization: 'Bearer ' + $('#token').val()
+                    // for the current project we need the following:
+                    Authorization: 'Basic ' + btoa(unescape(encodeURIComponent($('#username').val() + ':' + $('#password').val())))
+                }
             }, formData);
 
             var ajax = $.ajax(ajaxParams).done(function (data, textStatus, jqXHR) {
