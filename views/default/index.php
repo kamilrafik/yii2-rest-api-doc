@@ -19,13 +19,8 @@ $methodColorMap = [
 ?>
 <div class="docs-index">
 
-    <div class="form-group token-form">
-        <label for="token"><?= \Yii::t('app', 'Please, enter your API authorization token') ?></label>
-        <input class="form-control" type="password" id="token" placeholder="<?= \Yii::t('app', 'API Authorization Token') ?>" />
-    </div>
-
     <div>
-        <?= \Yii::t('app', 'After that click on APIs names/methods listed further and send queries to our server for getting results.') ?>
+        <?= \Yii::t('app', 'Please, click on APIs names/methods listed further and send queries to our server for getting results.') ?>
     </div>
     <br/><br/>
 
