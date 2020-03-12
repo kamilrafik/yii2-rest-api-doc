@@ -86,7 +86,7 @@ $fnGetHtmlIdForRule = function ($rule) {
                                         <?php endif ?>
                                         <form class="form">
                                             <input type="hidden" name="method" value="<?= $rule['method'] ?>" />
-                                            <input type="hidden" name="url" value="<?= htmlspecialchars($rule['url']) ?>" />
+                                            <input type="hidden" name="url" value="<?= Html::encode(YII_ENV_TEST ? '/index-test.php'.$rule['url'] : $rule['url']) ?>" />
                                             <?php if (!empty($rule['params'])) : ?>
                                                 <fieldset class="params">
                                                     <legend>Query Parameters</legend>
