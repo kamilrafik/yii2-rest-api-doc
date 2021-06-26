@@ -2,10 +2,14 @@
 
 namespace nostop8\yii2\rest_api_doc;
 
-class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
-{
+use yii\base\BootstrapInterface;
+use yii\base\Module as YiiModule;
 
+class Module extends YiiModule implements BootstrapInterface
+{
     public $controllerNamespace = 'nostop8\yii2\rest_api_doc\controllers';
+
+    public $showRequestForm = false;
 
     public function bootstrap($app)
     {

@@ -5,16 +5,17 @@ namespace nostop8\yii2\rest_api_doc\controllers;
 use nostop8\yii2\rest_api_doc\ModuleAsset;
 use ReflectionClass;
 use Yii;
+use yii\base\Controller;
 use yii\helpers\BaseInflector;
 use yii\rest\UrlRule;
 
-class DefaultController extends \yii\base\Controller
+class DefaultController extends Controller
 {
-
     public function init()
     {
         $view = $this->getView();
         ModuleAsset::register($view);
+
         parent::init();
     }
 
@@ -58,7 +59,8 @@ class DefaultController extends \yii\base\Controller
         });
 
         return $this->render('index', [
-                'rules' => $rules,
+            'rules' => $rules,
+            'showRequestForm' => Yii::$app->module->showRequestForm,
         ]);
     }
 
