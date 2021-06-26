@@ -2,8 +2,11 @@
 
 namespace nostop8\yii2\rest_api_doc\controllers;
 
+use nostop8\yii2\rest_api_doc\ModuleAsset;
+use ReflectionClass;
+use Yii;
 use yii\helpers\BaseInflector;
-use yii\helpers\Inflector;
+use yii\rest\UrlRule;
 
 class DefaultController extends \yii\base\Controller
 {
@@ -11,15 +14,15 @@ class DefaultController extends \yii\base\Controller
     public function init()
     {
         $view = $this->getView();
-        \nostop8\yii2\rest_api_doc\ModuleAsset::register($view);
+        ModuleAsset::register($view);
         parent::init();
     }
 
     public function actionIndex()
     {
         $rules = [];
-        foreach (\Yii::$app->urlManager->rules as $urlRule) {
-            if ($urlRule instanceof \yii\rest\UrlRule) {
+        foreach (Yii::$app->urlManager->rules as $urlRule) {
+            if ($urlRule instanceof UrlRule) {
                 $entity = [];
                 $urlName = key($urlRule->controller);
                 $controllerName = current($urlRule->controller);
@@ -28,8 +31,8 @@ class DefaultController extends \yii\base\Controller
                 // hide documentation for forbidden APIs
                 if (
                     !YII_ENV_TEST &&
-                    !\Yii::$app->user->isAdministrator() &&
-                    !\Yii::$app->user->can(\Yii::$app->apiAuthManager->getPermissionName($controllerName))
+                    !Yii::$app->user->isAdministrator() &&
+                    !Yii::$app->user->can(Yii::$app->apiAuthManager->getPermissionName($controllerName))
                 ) {
                     continue;
                 }
@@ -39,7 +42,7 @@ class DefaultController extends \yii\base\Controller
                 // note: further, we use title for generating HTML IDs; so, keep it clean
                 $entity['title'] = $controllerName;
 
-                $urlRuleReflection = new \ReflectionClass($urlRule);
+                $urlRuleReflection = new ReflectionClass($urlRule);
                 $rulesObject = $urlRuleReflection->getProperty('rules');
                 $rulesObject->setAccessible(true);
                 $generatedRules = $rulesObject->getValue($urlRule);
@@ -64,7 +67,7 @@ class DefaultController extends \yii\base\Controller
         $rules = [];
 
         foreach ($generatedRules as $generatedRule) {
-            $reflectionObject = new \ReflectionClass($generatedRule);
+            $reflectionObject = new ReflectionClass($generatedRule);
             $templateObject = $reflectionObject->getProperty('_template');
             $templateObject->setAccessible(true);
             if (empty($generatedRule->verb)) {
@@ -89,7 +92,7 @@ class DefaultController extends \yii\base\Controller
 
             $rule['params'] = $params;
 
-            list($controller, $actionID) = \Yii::$app->createController($generatedRule->route);
+            list($controller, $actionID) = Yii::$app->createController($generatedRule->route);
 
             try {
                 $methodName = 'action' . BaseInflector::id2camel($actionID);

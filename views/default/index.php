@@ -1,10 +1,10 @@
 <?php
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
+/** @var $this yii\web\View */
 /** @var $rules array */
 
-$this->title = \Yii::t('app', 'REST API Documentation');
+$this->title = Yii::t('app', 'REST API Documentation');
 
 $methodColorMap = [
     'GET' => 'info',
@@ -30,7 +30,7 @@ $fnGetHtmlIdForRule = function ($rule) {
     <input type="hidden" id="username" value="<?= Html::encode(Yii::$app->user->identity->username) ?>">
 
     <div>
-        <?= \Yii::t('app', 'Please, click on APIs names/methods listed further and send queries to our server for getting results.') ?>
+        <?= Yii::t('app', 'Please, click on APIs names/methods listed further and send queries to our server for getting results.') ?>
     </div>
     <br/><br/>
 
@@ -39,7 +39,7 @@ $fnGetHtmlIdForRule = function ($rule) {
         if (!sizeof($rules)) {
             ?>
             <div class="alert alert-warning">
-                <?= \Yii::t('app', 'Sorry, you have not access to any API. Please, contact system administrator to assign the required API permissions to your role.') ?>
+                <?= Yii::t('app', 'Sorry, you have not access to any API. Please, contact system administrator to assign the required API permissions to your role.') ?>
             </div>
             <?php
         }
