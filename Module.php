@@ -2,8 +2,8 @@
 
 namespace nostop8\yii2\rest_api_doc;
 
-use yii\base\BootstrapInterface;
 use yii\base\Module as YiiModule;
+use yii\base\BootstrapInterface;
 
 class Module extends YiiModule implements BootstrapInterface
 {

@@ -60,7 +60,7 @@ class DefaultController extends Controller
 
         return $this->render('index', [
             'rules' => $rules,
-            'showRequestForm' => Yii::$app->module->showRequestForm,
+            'showRequestForm' => Yii::$app->controller->module->showRequestForm,
         ]);
     }
 
