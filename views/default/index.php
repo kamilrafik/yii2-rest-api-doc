@@ -89,6 +89,7 @@ $fnGetHtmlIdForRule = function ($rule) {
                                         if ($showRequestForm) {
                                             echo $this->render('_form', [
                                                 'rule' => $rule,
+                                                'ri' => $ri,
                                             ]);
                                         }
                                         ?>
